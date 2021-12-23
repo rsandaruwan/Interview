@@ -3,9 +3,12 @@ import {BrowserRouter as Router,Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
+import 'antd/dist/antd.css';
+import './index.css';
+
 
 import ExercieseList from "./components/exercises-list.component";
-import CreateExerciese from "./components/create-exercise.component.js";
+import Demo from "./components/create-exercise.component.js";
 
 
 
@@ -14,7 +17,9 @@ function App() {
     <Router>
       <div className = "container"> 
         <Route path = "/" exact component = {ExercieseList}/>
-        <Route path = "/create" exact component = {CreateExerciese}/>
+        <Route path = "/create" exact component = {Demo}/>
+        
+        
       </div>  
     </Router>
 

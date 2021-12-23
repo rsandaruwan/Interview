@@ -1,177 +1,72 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import '../App'; 
-import greenEarth from '../components/green.jpg';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+import './index.css';
+import { Menu, Switch, Divider } from 'antd';
+import {
+  MailOutlined,
+  CalendarOutlined,
+  AppstoreOutlined,
+  SettingOutlined,
+  LinkOutlined,
+} from '@ant-design/icons';
 
-export default class CreateExerciese extends Component{
+const { SubMenu } = Menu;
 
-    constructor(props){
-        super(props);
+const Demo = () => {
+  const [mode, setMode] = React.useState('inline');
+  const [theme, setTheme] = React.useState('light');
 
-        this.state = {
-            firstname: '',
-            lastname: '',
-            contactNo: '',
-            gender:'',
-            country:''
-        }
+  const changeMode = value => {
+    setMode(value ? 'vertical' : 'inline');
+  };
 
-        this.onChangeFirstName = this.onChangeFirstName.bind(this);
-        this.onChangelastName = this.onChangelastName.bind(this);
-        this.onChangeContactNo = this.onChangeContactNo.bind(this);
-        this.onChangeGender = this.onChangeGender.bind(this);
-        this.onChangeCountry = this.onChangeCountry.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        
-        
-    }
+  const changeTheme = value => {
+    setTheme(value ? 'dark' : 'light');
+  };
 
-    onChangeFirstName(e){
-        this.setState({
-            firstname: e.target.value
-        });
-    }
+  return (
+    <>
+      <Switch onChange={changeMode} /> Change Mode
+      <Divider type="vertical" />
+      <Switch onChange={changeTheme} /> Change Style
+      <br />
+      <br />
+      <Menu
+        style={{ width: 256 }}
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        mode={mode}
+        theme={theme}
+      >
+        <Menu.Item key="1" icon={<MailOutlined />}>
+          Navigation One
+        </Menu.Item>
+        <Menu.Item key="2" icon={<CalendarOutlined />}>
+          Navigation Two
+        </Menu.Item>
+        <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Navigation Two">
+          <Menu.Item key="3">Option 3</Menu.Item>
+          <Menu.Item key="4">Option 4</Menu.Item>
+          <SubMenu key="sub1-2" title="Submenu">
+            <Menu.Item key="5">Option 5</Menu.Item>
+            <Menu.Item key="6">Option 6</Menu.Item>
+          </SubMenu>
+        </SubMenu>
+        <SubMenu key="sub2" icon={<SettingOutlined />} title="Navigation Three">
+          <Menu.Item key="7">Option 7</Menu.Item>
+          <Menu.Item key="8">Option 8</Menu.Item>
+          <Menu.Item key="9">Option 9</Menu.Item>
+          <Menu.Item key="10">Option 10</Menu.Item>
+        </SubMenu>
+        <Menu.Item key="link" icon={<LinkOutlined />}>
+          <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+            Ant Design
+          </a>
+        </Menu.Item>
+      </Menu>
+    </>
+  );
+};
 
-    onChangelastName(e){
-        this.setState({
-            lastname: e.target.value
-        });
-    }
-
-    onChangeContactNo(e){
-        this.setState({
-            contactNo: e.target.value
-        });
-    }
-
-    onChangeGender(e){
-        this.setState({
-            gender: e.target.value
-        });
-    }
-
-    onChangeCountry(e){
-        this.setState({
-            country: e.target.value
-            
-        });
-        console.log(e)
-    }
-
-    onSubmit(e){
-        e.preventDefault();
-
-        const exercise = {
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            contactNo: this.state.contactNo,
-            gender: this.state.gender,
-            country: this.state.country
-        }
-
-        console.log(exercise);
-        axios.post('http://localhost:3000/exercises/add', exercise)
-        .then(res => console.log(res.data));
-        window.location = '/';
-        
-    }
-
-
-
-    render(){
-        return(
-            <div className="wrapper">
-                <div className="row">
-                    <div className="col-md-5">
-                        <h2> Green<span> Earth</span></h2>
-                        <div className="imageArea">
-                            <img src={greenEarth} alt="green earth" />
-                        </div>
-                    </div>
-
-                    <div className="col-md-1">
-                        <div className="vl"></div>
-                    </div>
-
-                    <div className="col-md-6">
-
-                        <h2>Contact Info</h2>
-                        <form onSubmit = {this.onSubmit}>
-                            <div className = "form-group">
-                                <input
-                                type="text"
-                                className ="form-control"
-                                placeholder="First Name"
-                                value = {this.state.firstname}
-                                onChange = {this.onChangeFirstName}
-                                />
-                            </div>
-
-                            <div className = "form-group">
-                                <input
-                                type="text"
-                                className ="form-control"
-                                placeholder="Last Name"
-                                value = {this.state.lastname}
-                                onChange = {this.onChangelastName}
-                                />
-                            </div>
-
-                            <div className = "form-group">
-                                <input
-                                type="text"
-                                className ="form-control"
-                                placeholder="Contact Number"
-                                value = {this.state.contactNo}
-                                onChange = {this.onChangeContactNo}
-                                />
-                            </div>
-
-                            <div className ="row">
-                                <div className ="col-md-6">
-                                    <div className = "form-group">
-                                        <select id = "gender" 
-                                        className ="form-control"
-                                        placeholder="Gender"
-                                        value = {this.state.gender}
-                                        onChange = {this.onChangeGender}>
-                                            <option value="" disabled selected hidden>Gender</option>
-                                            <option value="male" defaultValue>Male</option>
-                                            <option value="femail">Female</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className ="col-md-6">
-                                    <div className = "form-group">
-                                        <select id = "country" 
-                                        className ="form-control"
-                                        placeholder="Country"
-                                        value = {this.state.country}
-                                        onChange = {this.onChangeCountry}>
-                                            <option value="" disabled selected hidden>Country</option>
-                                            <option value="Srilanka" defaultValue>Srilanka</option>
-                                            <option value="India">India</option>
-                                            <option value="America">America</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <input type="submit" value="Save" className="btn btn-success form-control" />
-
-                            </div>
-                        </form>
-
-                    </div>
-
-                </div>
-               
-                   
-            </div>
-        )
-    }
-}
+ReactDOM.render(<Demo />, document.getElementById('container'));
